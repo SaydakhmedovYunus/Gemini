@@ -45,7 +45,8 @@
                 }
 
                 const data = await response.json();
-                document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+                const generatedText = data.candidates[0].content.parts[0].text;
+                document.getElementById('output').textContent = generatedText;
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('output').textContent = 'Error: ' + error.message;
