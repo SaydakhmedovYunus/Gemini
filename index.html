@@ -14,14 +14,20 @@
     <script>
         async function analyzeText() {
             const apiKey = 'AIzaSyACkWWVwSnJ0oR7TzghZErUH3j4kqaN2NE';  // Ваш ключ API
-            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;  // Примерный URL, уточните его в документации
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
             const inputText = document.getElementById('inputText').value;
 
             const body = {
-                prompt: {
-                    text: inputText
-                }
+                contents: [
+                    {
+                        parts: [
+                            {
+                                text: inputText
+                            }
+                        ]
+                    }
+                ]
             };
 
             try {
@@ -34,7 +40,8 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const errorData = await response.json();
+                    throw new Error(`HTTP error! status: ${response.status} - ${JSON.stringify(errorData)}`);
                 }
 
                 const data = await response.json();
