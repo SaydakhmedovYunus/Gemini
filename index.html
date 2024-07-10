@@ -14,23 +14,28 @@
     <script>
         async function analyzeText() {
             const apiKey = 'AIzaSyACkWWVwSnJ0oR7TzghZErUH3j4kqaN2NE';  // Ваш ключ API
-            const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyACkWWVwSnJ0oR7TzghZErUH3j4kqaN2NE';  // Примерный URL, уточните его в документации
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;  // Примерный URL, уточните его в документации
 
             const inputText = document.getElementById('inputText').value;
 
             const body = {
-                text: inputText
+                prompt: {
+                    text: inputText
+                }
             };
 
             try {
                 const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${apiKey}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(body)
                 });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
                 const data = await response.json();
                 document.getElementById('output').textContent = JSON.stringify(data, null, 2);
