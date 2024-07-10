@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini API Example</title>
+</head>
+<body>
+    <h1>Gemini API Example</h1>
+    <textarea id="inputText" rows="4" cols="50">Введите текст для анализа</textarea>
+    <button onclick="analyzeText()">Analyze</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function analyzeText() {
+            const apiKey = 'AIzaSyACkWWVwSnJ0oR7TzghZErUH3j4kqaN2NE';  // Ваш ключ API
+            const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyACkWWVwSnJ0oR7TzghZErUH3j4kqaN2NE';  // Примерный URL, уточните его в документации
+
+            const inputText = document.getElementById('inputText').value;
+
+            const body = {
+                text: inputText
+            };
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                const data = await response.json();
+                document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('output').textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
