@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gemini API Example</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <h1>Gemini API Example</h1>
-    <textarea id="inputText" rows="4" cols="50">Введите текст для анализа</textarea>
-    <button onclick="analyzeText()">Analyze</button>
-    <pre id="output"></pre>
+    <div>
+        <h1>Gemini API Example</h1>
+        <textarea id="inputText" rows="4" cols="50">Введите текст для анализа...</textarea>
+        <button onclick="analyzeText()">Search</button>
+        <div class="functions">
+            <img src="./img/copy.png" alt="copy" class="copy-button" onclick="copyText()">
+        </div>
+        <p id="output"></p>
+    </div>
 
     <script>
         async function analyzeText() {
             const apiKey = 'AIzaSyACkWWVwSnJ0oR7TzghZErUH3j4kqaN2NE';  // Ваш ключ API
             const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
-
             const inputText = document.getElementById('inputText').value;
 
             const body = {
@@ -47,11 +52,13 @@
                 const data = await response.json();
                 const generatedText = data.candidates[0].content.parts[0].text;
                 document.getElementById('output').textContent = generatedText;
+                document.getElementById('output').style.display = 'block', 'transition:1s';
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('output').textContent = 'Error: ' + error.message;
             }
         }
     </script>
+    <script src="./script.js"></script>
 </body>
 </html>
